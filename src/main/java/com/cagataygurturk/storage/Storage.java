@@ -3,13 +3,13 @@ package com.cagataygurturk.storage;
 
 import java.util.Map;
 
-public interface Storage {
+public interface Storage<T extends Storable> {
 
-    Storable getObjectByPrimaryIndex(long index);
+    T getObjectByPrimaryIndex(long index);
 
-    Storable saveObject(Storable objectToSave);
+    T saveObject(T objectToSave);
 
-    Map<Long, Storable> getAllObjects();
+    Map<Long, T> getAllObjects();
 
-    Map<Long, Storable> getObjectsByCriteria(String id, Object value);
+    Map<Long, T> getObjectsByCriteria(String id, Object value);
 }

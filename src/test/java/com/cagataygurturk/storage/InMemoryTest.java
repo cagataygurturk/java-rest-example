@@ -1,5 +1,6 @@
 package com.cagataygurturk.storage;
 
+import com.cagataygurturk.models.Transaction;
 import org.junit.Test;
 
 import java.util.Map;
@@ -31,10 +32,10 @@ public class InMemoryTest {
 
     @Test
     public void testSaveAndGetObject() throws Exception {
-        InMemory database = new InMemory();
+        InMemory<CustomObject> database = new InMemory<>();
         CustomObject object = new CustomObject("testValue");
         database.saveObject(object);
-        CustomObject objectFromDatabase = (CustomObject) database.getObjectByPrimaryIndex(1);
+        CustomObject objectFromDatabase = database.getObjectByPrimaryIndex(1);
         assertNotNull(objectFromDatabase);
         assertEquals(1, objectFromDatabase.getGeneratedId());
     }
@@ -46,7 +47,7 @@ public class InMemoryTest {
      */
     @Test
     public void testSetGeneratedIds() throws Exception {
-        InMemory database = new InMemory();
+        InMemory<CustomObject> database = new InMemory<>();
 
         for (long i = 1; i < 10; i++) {
             CustomObject object = new CustomObject("testValue" + i);
@@ -54,7 +55,7 @@ public class InMemoryTest {
         }
 
         for (long i = 1; i < 10; i++) {
-            CustomObject objectFromDatabase = (CustomObject) database.getObjectByPrimaryIndex(i);
+            CustomObject objectFromDatabase = database.getObjectByPrimaryIndex(i);
             assertEquals(i, objectFromDatabase.getGeneratedId());
             assertEquals("testValue" + i, objectFromDatabase.value);
         }
@@ -63,14 +64,14 @@ public class InMemoryTest {
 
     @Test
     public void testGetAllObjects() throws Exception {
-        InMemory database = new InMemory();
+        InMemory<CustomObject> database = new InMemory<>();
 
         for (long i = 1; i <= 10; i++) {
             CustomObject object = new CustomObject("testValue" + i);
             database.saveObject(object);
         }
 
-        Map<Long, Storable> allItems = database.getAllObjects();
+        Map<Long, CustomObject> allItems = database.getAllObjects();
         assertEquals(10, allItems.size());
 
         for (long i = 1; i <= 10; i++) {
@@ -80,14 +81,14 @@ public class InMemoryTest {
 
     @Test
     public void testGetObjectsByCriteria() throws Exception {
-        InMemory database = new InMemory();
+        InMemory<CustomObject> database = new InMemory<>();
 
         for (long i = 1; i <= 10; i++) {
             CustomObject object = new CustomObject("testValue" + i);
             database.saveObject(object);
         }
 
-        Map<Long, Storable> searchResults = database.getObjectsByCriteria("value", "testValue1");
+        Map<Long, CustomObject> searchResults = database.getObjectsByCriteria("value", "testValue1");
         assertEquals(1, searchResults.size());
     }
 }

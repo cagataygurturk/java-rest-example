@@ -1,18 +1,21 @@
 package com.cagataygurturk.storage;
 
 
+import org.springframework.stereotype.Component;
+
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class InMemory implements Storage {
+@Component
+public class InMemory<T extends Storable> implements Storage<T> {
 
-    protected TreeMap<Long, Storable> objectList = new TreeMap<>();
+    protected TreeMap<Long, T> objectList = new TreeMap<>();
 
-    public Storable getObjectByPrimaryIndex(long index) {
+    public T getObjectByPrimaryIndex(long index) {
         return objectList.get(index);
     }
 
-    public Storable saveObject(Storable objectToSave) {
+    public T saveObject(T objectToSave) {
         long lastObjectId;
         try {
             lastObjectId = objectList.lastKey();
@@ -28,13 +31,13 @@ public class InMemory implements Storage {
         return objectToSave;
     }
 
-    public Map<Long, Storable> getAllObjects() {
+    public Map<Long, T> getAllObjects() {
         return this.objectList;
     }
 
-    public Map<Long, Storable> getObjectsByCriteria(String fieldName, Object value) {
+    public Map<Long, T> getObjectsByCriteria(String fieldName, Object value) {
 
-        TreeMap<Long, Storable> results = new TreeMap<>();
+        TreeMap<Long, T> results = new TreeMap<>();
 
         objectList.forEach((key, object) -> {
             try {
