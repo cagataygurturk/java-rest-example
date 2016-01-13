@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/cagataygurturk/java-rest-example.svg)](https://travis-ci.org/cagataygurturk/java-rest-example)
