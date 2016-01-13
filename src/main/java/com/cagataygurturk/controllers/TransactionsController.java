@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 @Component
 @Path("/transactionservice")
@@ -17,6 +19,9 @@ public class TransactionsController {
 
     @Autowired
     protected TransactionService transactionService;
+
+    @Context
+    UriInfo uri;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -71,9 +76,9 @@ public class TransactionsController {
         } else
             transaction = transactionService.createNewTransaction(transactionRequest.amount, transactionRequest.type);
 
-        return Response.status(201).entity(
-                transaction
-        ).build();
+        return Response.status(201).
+                header("Location", uri.getBaseUri() + "transactionservice/transactions/" + transaction.getId())
+                .build();
     }
 
     @GET

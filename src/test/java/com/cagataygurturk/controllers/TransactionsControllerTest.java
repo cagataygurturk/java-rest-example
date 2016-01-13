@@ -61,9 +61,6 @@ public class TransactionsControllerTest {
                 .body("{\"amount\": 20.8,\"type\": \"cars\" }")
                 .expect()
                 .statusCode(201)
-                .body("amount", is(20.8f))
-                .and()
-                .body("type", equalTo("cars"))
                 .when()
                 .post(BASE_STRING + "/transactions");
 
@@ -71,35 +68,35 @@ public class TransactionsControllerTest {
 
     @Test
     public void createTransactionWithParents() throws Exception {
-        Integer parentId = given()
+
+        String location = given()
                 .contentType("application/json")
                 .body("{\"amount\": 20.8,\"type\": \"cars\" }")
                 .expect()
                 .statusCode(201)
-                .body("transaction_id", notNullValue())
-                .and()
-                .body("amount", is(20.8f))
-                .and()
-                .body("type", equalTo("cars"))
                 .when()
                 .post(BASE_STRING + "/transactions")
                 .then()
                 .extract()
-                .path("transaction_id");
+                .header("Location");
 
+
+        Integer parentId = given()
+                .contentType("application/json")
+                .expect()
+                .statusCode(200)
+                .when()
+                .get(location)
+                .then()
+                .extract()
+                .path("transaction_id");
 
         given()
                 .contentType("application/json")
                 .body("{\"amount\": 20,\"type\": \"cars\", \"parent_id\": " + parentId + "}")
                 .expect()
                 .statusCode(201)
-                .body("transaction_id", notNullValue())
-                .and()
-                .body("amount", is(20f))
-                .and()
-                .body("type", equalTo("cars"))
-                .and()
-                .body("parent_id", is(parentId))
+
                 .when()
                 .post(BASE_STRING + "/transactions");
 
@@ -114,22 +111,27 @@ public class TransactionsControllerTest {
 
     @Test
     public void calculateSum() throws Exception {
-        Integer parentId = given()
+        String location = given()
                 .contentType("application/json")
                 .body("{\"amount\": 20.8,\"type\": \"cars\" }")
                 .expect()
                 .statusCode(201)
-                .body("transaction_id", notNullValue())
-                .and()
-                .body("amount", is(20.8f))
-                .and()
-                .body("type", equalTo("cars"))
                 .when()
                 .post(BASE_STRING + "/transactions")
                 .then()
                 .extract()
-                .path("transaction_id");
+                .header("Location");
 
+
+        Integer parentId = given()
+                .contentType("application/json")
+                .expect()
+                .statusCode(200)
+                .when()
+                .get(location)
+                .then()
+                .extract()
+                .path("transaction_id");
 
         for (int i = 1; i <= 5; i++) {
             given()
@@ -137,13 +139,6 @@ public class TransactionsControllerTest {
                     .body("{\"amount\": 20,\"type\": \"cars\", \"parent_id\": " + parentId + "}")
                     .expect()
                     .statusCode(201)
-                    .body("transaction_id", notNullValue())
-                    .and()
-                    .body("amount", is(20f))
-                    .and()
-                    .body("type", equalTo("cars"))
-                    .and()
-                    .body("parent_id", is(parentId))
                     .when()
                     .post(BASE_STRING + "/transactions");
         }
@@ -170,11 +165,6 @@ public class TransactionsControllerTest {
                     .body("{\"amount\": 20,\"type\": \"clothes\"}")
                     .expect()
                     .statusCode(201)
-                    .body("transaction_id", notNullValue())
-                    .and()
-                    .body("amount", is(20f))
-                    .and()
-                    .body("type", equalTo("clothes"))
                     .when()
                     .post(BASE_STRING + "/transactions");
         }
@@ -185,11 +175,6 @@ public class TransactionsControllerTest {
                 .body("{\"amount\": 20,\"type\": \"bus\"}")
                 .expect()
                 .statusCode(201)
-                .body("transaction_id", notNullValue())
-                .and()
-                .body("amount", is(20f))
-                .and()
-                .body("type", equalTo("bus"))
                 .when()
                 .post(BASE_STRING + "/transactions");
 
