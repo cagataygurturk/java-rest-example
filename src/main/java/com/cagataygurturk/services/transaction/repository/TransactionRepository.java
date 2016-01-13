@@ -8,9 +8,8 @@ import java.util.Map;
 abstract public class TransactionRepository {
 
     /**
-     * Data Access Objects are chainable. It allows to attach easily another Data Access Layer in front of another one
-     * <p>
-     * In a most generic implementation, a cache layer extending TransactionRepository
+     * Data Access Objects should be chainable.
+     * It allows to attach easily another Data Access Layer in front of another one
      */
     protected TransactionRepository fallbackRepository;
 
