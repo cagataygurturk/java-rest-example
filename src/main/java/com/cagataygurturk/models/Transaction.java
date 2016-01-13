@@ -1,6 +1,7 @@
 package com.cagataygurturk.models;
 
 import com.cagataygurturk.storage.Storable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -72,6 +73,7 @@ public class Transaction implements Serializable, Storable {
         return this;
     }
 
+    @JsonIgnore
     public long getGeneratedId() {
         return this.getId();
     }

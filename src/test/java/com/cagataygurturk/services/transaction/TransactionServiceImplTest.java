@@ -67,4 +67,5 @@ public class TransactionServiceImplTest {
         assertEquals("cars", transaction.getType());
         assertEquals(1, (long) transaction.getParentId());
     }
+
 }

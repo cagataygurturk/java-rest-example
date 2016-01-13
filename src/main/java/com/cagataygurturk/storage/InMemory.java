@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.util.*;
 
-@Component("transaction_repository_inmemory")
+@Component("storage_inmemory")
 public class InMemory<T extends Storable> implements Storage<T> {
 
     protected TreeMap<Long, T> objectList = new TreeMap<>();

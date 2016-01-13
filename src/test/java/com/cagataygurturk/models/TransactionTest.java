@@ -15,10 +15,6 @@ public class TransactionTest {
         return new Transaction(20.0, "car");
     }
 
-    @Test
-    public void testGetTransactionId() throws Exception {
-        assertEquals(1, getTransactionObject().getId());
-    }
 
     @Test
     public void testSetTransactionId() throws Exception {
